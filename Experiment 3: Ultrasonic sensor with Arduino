@@ -1,0 +1,59 @@
+// ----------------------------------------
+// Ultrasonic Sensor with Arduino
+// Turns ON LED if object is closer than 20 cm
+// ----------------------------------------
+
+// Pin definitions
+const int trigPin = 8;
+const int echoPin = 7;
+const int ledPin = 13;
+
+// Variables
+long duration;
+float distance;
+
+void setup() {
+
+  // Start Serial Monitor
+  Serial.begin(9600);
+
+  // Set pin modes
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+
+  // Clear TRIG pin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  // Send 10 microsecond pulse
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Read echo time
+  duration = pulseIn(echoPin, HIGH);
+
+  // Calculate distance (cm)
+  distance = duration * 0.0343 / 2;
+
+  // Display distance
+  Serial.print("Distance = ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  // Turn LED ON if object is close
+  if (distance < 20)
+  {
+    digitalWrite(ledPin, HIGH);
+  }
+  else
+  {
+    digitalWrite(ledPin, LOW);
+  }
+
+  delay(200);
+}
