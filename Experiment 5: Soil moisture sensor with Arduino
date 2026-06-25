@@ -1,0 +1,42 @@
+int Moisture_Sensor_Pin = A0;	
+int Moisture_Sensor_power = 8;	
+int red_LED = 2;	
+int yellow_LED = 3;	
+int green_LED = 4;	
+
+int sensor;	
+int wet = 800;	
+int dry = 500;	
+
+void setup(){
+pinMode(red_LED, OUTPUT);
+pinMode(yellow_LED, OUTPUT);           
+pinMode(green_LED, OUTPUT); 
+pinMode(Moisture_Sensor_power, OUTPUT);
+Serial.begin(9600);
+}
+
+void loop(){
+digitalWrite(Moisture_Sensor_power, HIGH); 
+delay(10);	
+sensor = analogRead(Moisture_Sensor_Pin); 
+digitalWrite(Moisture_Sensor_power, LOW); 
+Serial.println(sensor);	
+if(sensor > wet){	
+digitalWrite(red_LED, LOW); 
+digitalWrite(yellow_LED, LOW); 
+digitalWrite(green_LED, HIGH);
+}
+else if(sensor < dry){	
+digitalWrite(red_LED, HIGH);
+digitalWrite(yellow_LED, LOW); 
+digitalWrite(green_LED, LOW);
+}
+else{	
+digitalWrite(red_LED, LOW); 
+digitalWrite(yellow_LED, HIGH); 
+digitalWrite(green_LED, LOW);
+}
+
+delay(1000); 
+}
