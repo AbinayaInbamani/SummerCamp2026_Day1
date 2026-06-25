@@ -1,0 +1,44 @@
+#include <Wire.h>
+#include "AHT20.h"
+
+AHT20 sensor;
+
+int buzzer = 8;
+
+void setup() {
+  Serial.begin(9600);
+
+  Wire.begin();
+
+  sensor.begin();
+
+  pinMode(buzzer, OUTPUT);
+
+  digitalWrite(buzzer, LOW);
+}
+
+void loop() {
+
+  float temperature;
+  float humidity;
+
+  sensor.getTemperature(&temperature);
+  sensor.getHumidity(&humidity);
+
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" C");
+
+  Serial.print("Humidity: ");
+  Serial.print(humidity);
+  Serial.println(" %");
+
+  if (temperature > 30) {
+    digitalWrite(buzzer, HIGH);   // Buzzer ON
+  }
+  else {
+    digitalWrite(buzzer, LOW);    // Buzzer OFF
+  }
+
+  delay(1000);
+}
